@@ -1,0 +1,13 @@
+one:
+  name: "Product One"
+  price: 100
+  description: "Description for product one"
+  stock: 10
+  expiration_date: <%= 1.year.from_now.to_date %>
+
+two:
+  name: "Product Two"
+  price: 200
+  description: "Description for product two"
+  stock: 20
+  expiration_date: <%= 1.year.from_now.to_date %>
