@@ -35,4 +35,4 @@ jobs:
 
       - name: Run tests
         run: |
-          bin/rails test
+          bin/rails test
