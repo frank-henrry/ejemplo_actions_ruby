@@ -1,38 +1,29 @@
-name: Ruby Tests
-
-on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+name: Workflows-Ruby
+on: [push]
 
 jobs:
-  test:
+  trabajo1:
     runs-on: ubuntu-latest
 
-    services:
-      sqlite3:
-        image: sqlite:latest
-
     steps:
-      - uses: actions/checkout@v2
+    - name: checkout code
+      uses: actions/checkout@v2
+      
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2.7
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2.7'
-          bundler-cache: true
+    - name: Install dependencies
+      run: |
+        gem install bundler
+        bundle install  --jobs 4 --retry 3
+      
+    - name: Setup database
+      run: |
+        bin/rails db:create
+        bin/rails db:schema:load
 
-      - name: Install dependencies
-        run: |
-          gem install bundler
-          bundle install  --jobs 4 --retry 3
-
-      - name: Setup database
-        run: |
-          bin/rails db:create
-          bin/rails db:schema:load
-
-      - name: Run tests
-        run: |
-          bin/rails test
+    - name: Run tests
+      run: |
+        bin/rails test
